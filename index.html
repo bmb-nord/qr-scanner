@@ -7,18 +7,21 @@
     <title>BMB Nord Surveys</title>
 
     <style>
-        #options{
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            margin-top: 100px;
-        }
-
         #logos-div > div{
             display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            
+            justify-content: space-between;
+            padding: 10px 20px;
+            gap: 50px;
+        }
+
+        #options{
+            display: flex;
+            flex-direction: column;
+            margin-top: 100px;
+            gap: 30px;
+            align-items: center;
+            text-align: center;
+            font-size: large;
         }
     </style>
 </head>
@@ -37,14 +40,14 @@
             <a href="qr_scanner.html">
                 <img src="qr-1.png" alt="scan qr code" width="400px">
             </a>
-            <p style="text-align: center; font-size: large;">Scan the QR Code</p>
+            <p>Scan the QR Code</p>
         </div>
 
         <div id="access-code-div">
             <a href="https://redcap.fz-borstel.de/redcap/surveys/">
                 <img src="type.jpg" alt="scan qr code" width="400px">
             </a>
-            <p style="text-align: center; font-size: large;">Write the access code</p>
+            <p>Write the access code</p>
         </div>
     </div>
 
