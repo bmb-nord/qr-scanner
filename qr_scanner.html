@@ -23,27 +23,65 @@
             border: 1px solid #ddd;
             margin-top: 20px;
         }
-        #captureButton {
+        #captureBtn, #anotherCaptureBtn, #surveyBtn {
             font-size: 18px;
             padding: 10px 20px;
             margin-top: 20px;
             cursor: pointer;
+            background-color: rgb(72 161 239);
+            font-weight: 700;
+        }
+
+        #captureBtn:hover, #anotherCaptureBtn:hover, #surveyBtn:hover {
+            background-color: rgb(94, 239, 72);
+            color: rgb(196, 106, 106)
+        }
+
+        textarea{
+            font-weight: 700;
+            font-size: xx-large;
+            background-color: antiquewhite;
+            padding: 10px;
+            border: 3px solid violet;
         }
     </style>
 </head>
 <body>
     <h1>QR Scanner</h1>
-    <video id="video" autoplay playsinline></video>
-    <br>
-    <button id="captureButton">Take Photo</button>
-    <canvas id="canvas" style="display:none;"></canvas>
-    <img id="photo" alt="Captured photo will appear here">
+
+    <div id="capture-div">
+        <video id="video" autoplay playsinline></video>
+        <br>
+        <button id="captureBtn">Take Photo</button>
+    </div>
+
+        <canvas id="canvas" style="display: none;"></canvas>
+
+    <div id="results-div" style="display: none;">
+
+        <div id="success-qr-div" style="display: none;">
+            <textarea name="qr-code-data" id="qr-code-data"></textarea>
+            <br>
+            <button id="surveyBtn">To the survey</button>
+        </div>
+
+        <div id="different-qr-div" style="display: none;">
+            <textarea name="qr-code-data" id="qr-code-data"></textarea>
+            <br>
+            <p><strong>Wrong URL, please try again</strong></p>
+        </div>
+
+        <img id="photo" alt="Captured photo will appear here">
+        <br>
+        <button id="anotherCaptureBtn">Another photo</button>
+    </div>
 
     <script>
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         const photo = document.getElementById('photo');
-        const captureButton = document.getElementById('captureButton');
+        const captureBtn = document.getElementById('captureBtn');
+        const anotherCaptureBtn = document.getElementById('anotherCaptureBtn')
 
         async function startCamera() {
             try {
@@ -65,7 +103,7 @@
             canvas.height = video.videoHeight;
         });
 
-        captureButton.addEventListener('click', () => {
+        captureBtn.addEventListener('click', () => {
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             // canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -73,6 +111,8 @@
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             const imageDataUrl = canvas.toDataURL('image/jpeg');
             photo.src = imageDataUrl;
+            document.getElementById('capture-div').style.display = 'none';
+            document.getElementById('results-div').style.display = 'block';
 
             // Read the pixel data from the canvas
             // const ctx = canvas.getContext('2d');
@@ -82,13 +122,23 @@
             const qrCode = jsQR(imageData.data, canvas.width, canvas.height);
 
             if (qrCode) {
-                console.log("QR Code Data:", qrCode.data);
-                alert("QR Code Data: " + qrCode.data)
+                document.getElementById('qr-code-data').value = qrCode.data;
+                if (qrCode.data.includes('redcap/surveys/?s=')){
+                    document.getElementById('surveyBtn').onclick=`location.href=${qrCode.data}`
+                    document.getElementById('success-qr-div').style.display = 'block'
+                } else {
+                    document.getElementById('different-qr-div').style.display = 'block'
+                }
             } else {
-                console.log("No QR code found");
-                alert("No QR code found");
+                // console.log("No QR code found");
+                alert("No QR code found, try again");
             }
         });
+
+        anotherCaptureBtn.addEventListener('click', () => {
+            document.getElementById('results-div').style.display = 'none';
+            document.getElementById('capture-div').style.display = 'block';
+        })
 
         // Start the camera when the page loads
         window.addEventListener('load', startCamera);
