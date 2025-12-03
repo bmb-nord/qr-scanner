@@ -66,7 +66,7 @@
         </div>
 
         <div id="different-qr-div" style="display: none;">
-            <textarea name="qr-code-data" id="qr-code-data"></textarea>
+            <textarea name="qr-code-data" id="qr-code-data-2"></textarea>
             <br>
             <p><strong>Wrong URL, please try again</strong></p>
         </div>
@@ -123,6 +123,7 @@
 
             if (qrCode) {
                 document.getElementById('qr-code-data').value = qrCode.data;
+                document.getElementById('qr-code-data-2').value = qrCode.data;
                 if (qrCode.data.includes('redcap/surveys/?s=')){
                     document.getElementById('surveyBtn').onclick=`location.href=${qrCode.data}`
                     document.getElementById('success-qr-div').style.display = 'block'
@@ -138,6 +139,8 @@
         anotherCaptureBtn.addEventListener('click', () => {
             document.getElementById('results-div').style.display = 'none';
             document.getElementById('capture-div').style.display = 'block';
+            document.getElementById('success-qr-div').style.display = 'none'
+            document.getElementById('different-qr-div').style.display = 'none'
         })
 
         // Start the camera when the page loads
