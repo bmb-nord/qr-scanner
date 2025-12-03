@@ -60,13 +60,13 @@
     <div id="results-div" style="display: none;">
 
         <div id="success-qr-div" style="display: none;">
-            <textarea name="qr-code-data" id="qr-code-data" rows="4" cols="50"></textarea>
-            <br>
-            <button id="surveyBtn">To the survey</button>
+            <textarea name="qr-code-data" id="qr-code-data" rows="4" cols="35"></textarea>
+            <br> <br>
+            <a id="surveyBtn">To the survey</a>
         </div>
 
         <div id="different-qr-div" style="display: none;">
-            <textarea name="qr-code-data" id="qr-code-data-2" rows="4" cols="30"></textarea>
+            <textarea name="qr-code-data" id="qr-code-data-2" rows="4" cols="35"></textarea>
             <br>
             <p><strong>Wrong URL, please try again</strong></p>
         </div>
@@ -125,7 +125,7 @@
                 document.getElementById('qr-code-data').value = qrCode.data;
                 document.getElementById('qr-code-data-2').value = qrCode.data;
                 if (qrCode.data.includes('redcap/surveys/?s=')){
-                    document.getElementById('surveyBtn').onclick=`location.href=${qrCode.data}`
+                    document.getElementById('surveyBtn').href=qrCode.data;
                     document.getElementById('success-qr-div').style.display = 'block'
                 } else {
                     document.getElementById('different-qr-div').style.display = 'block'
